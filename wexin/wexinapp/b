@@ -1,0 +1,89 @@
+from django.shortcuts import render,render_to_response
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.encoding import smart_str
+
+from .models import *
+
+import urllib.request
+import re
+import os
+import hashlib
+import json
+import requests
+import traceback
+import xml.etree.ElementTree as ET
+import time
+
+wxtoken = 'wslnr'
+key = '9d6be4eba9a04bd7bfcc13a130111768'
+url = 'http://www.tuling123.com/openapi/api'
+appid = 'wx6b278f2d4943d8b7'
+appsecret = 'a614fe46d973860f79a955f060f5f6e9'
+
+@csrf_exempt
+def lnr(request):
+
+    def get(request):
+        signature = request.GET.get("signature","")
+        timestamp = request.GET.get("timestamp","")
+        nonce = request.GET.get("nonce","")
+        echostr = request.GET.get("echostr","")
+        token = wxtoken
+
+        tmp_list = [token,timestamp,nonce]
+        tmp_list.sort()
+        tmp_str = tmp_list[0] + tmp_list[1] + tmp_list[2]
+        tmpstr = hashlib.sha1(tmp_str.encode('utf-8')).hexdigest()
+
+        if tmpstr == signature:
+            return echostr
+        else:
+            return 'error'
+
+    def retext(to,fr,ti,te):
+        xmlfrom = '''
+            <xml>
+            <ToUserName><![CDATA[%s]]></ToUserName>
+            <FromUserName><![CDATA[%s]]></FromUserName>
+            <CreateTime>%d</CreateTime>
+            <MsgType><![CDATA[text]]></MsgType>
+            <Content><![CDATA[%s]]></Content>
+            </xml>
+        '''%(fr,to,ti,te)
+        return xmlfrom
+
+    def getjson(xmldata):
+        jsdata = xmldata.find('Content').text
+        f = {"key":key,"info":jsdata}
+        r = requests.post(url,data=f)
+        resp = r.text
+        if len(resp) == 0:
+            return None
+        js = json.loads(resp)
+        if js['code'] == 100000:
+            return js['text'].replace('<br>','\n')
+        elif js['code'] == 200000:
+            return js['url']
+        else:
+            return None
+
+    def post(request):
+        xmldata = ET.fromstring(request.body)
+        tousername = xmldata.find('ToUserName').text
+        fromusername = xmldata.find('FromUserName').text
+        msgtype = xmldata.find('MsgType').text
+        time = int(time.time())
+        if msgtype == 'event':
+            event = xmldata.find('Event').text
+            if event == 'subscribe':
+                gettext = 'welcome'
+        if msgtype == 'text':
+            gettext = getjson(xmldata)
+        redata = retext(tousername,fromusername,time,gettext)
+        return redata
+
+    if request.method == "GET":
+        return HttpResponse(get(request))
+    elif request.method =="POST":
+        return HttpResponse(POST(request))
