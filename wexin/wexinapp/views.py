@@ -19,13 +19,13 @@ import time
 
 # Create your views here.
 
-wxtoken = 'wslnr'
-key = '9d6be4eba9a04bd7bfcc13a130111768'
+wxtoken = 'yourtoken'
+key = 'your tuling key'
 url = 'http://www.tuling123.com/openapi/api'
-#appid = 'wx6b278f2d4943d8b7'
-#appsecret = 'a614fe46d973860f79a955f060f5f6e9'
-appid = 'wxb957e3605e03b369'
-appsecret = 'a2445b89eaf6f07b8cc3699069e2a768'
+#appid = ''
+#appsecret = ''
+appid = 'yourappid'
+appsecret = 'youraddsecret'
 
 @csrf_exempt
 def lnr(request):
