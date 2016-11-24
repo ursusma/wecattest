@@ -67,16 +67,21 @@ def lnr(request):
         return t
 
     def dataevent(xmldata):
-        event_value = xmldata.find('Event').text
-        if event_value == 'subscribe':
+        if xmldata.find('Event').text == 'subscribe':
             username = xmldata.find('FromUserName').text
             t = 'welcome subscribe!if you need help,please set "help"'
             return t
-        elif event_value == 'SCAN':
+        elif xmldata.find('Event').text == 'subscribe' and xmldata.find('EventKey').text != '':
+            t = 'no subscribe users scanning QR code,KEY:' + xmldata.find('EventKey').text + '\n' + 'ticket:' + xmldata.find('Ticket').text
+            return t
+        elif xmldata.find('Event').text == 'SCAN':
             t = 'subscribe users scanning QR code,KEY:' + xmldata.find('EventKey').text + '\n' + 'ticket:' + xmldata.find('Ticket').text
             return t
-        elif event_value == 'LOCATION':
+        elif xmldata.find('Event').text == 'LOCATION':
             t = 'geography' + '\n' + xmldata.find('Latitude').text + '\n' + xmldata.find('Longitude').text + '\n' + 'Precision' + xmldata.find('Precision').text
+            return t
+        elif xmldata.find('Event').text == 'CLICK':
+            t = 'click event,key:' + xmldata.find('EventKet').text
             return t
         else:
             pass
@@ -134,13 +139,11 @@ def lnr(request):
             t = xmlData.find('Content').text
             if t == 'news':
                 res = renews(touser,fromuser)
-            elif t == 'help':
-                text = u'1.新闻头条,请输"news"' + '\n' + '2.其它功能开发ing......'
-                res = retext(touser,fromuser,text)
+                return res
             else:
                 text = datatext(t)
                 res = retext(touser,fromuser,text)
-            return res
+                return res
         elif test == 'image':
             picurl = xmlData.find('PicUrl').text
             ima = dataimage(picurl)
@@ -171,16 +174,8 @@ def lnr(request):
             res = retext(touser,fromuser,text)
             return res
         elif test == 'event':
-            if xmlData.find('Event').text == 'CLICK':
-                if xmlData.find('EventKey').text == 'v1001_joke':
-                    tex = u'笑话'
-                    text = getjson(tex)
-                    res = retext(touser,fromuser,text)
-                elif xmlData.find('EventKey').text == 'v1001_news':
-                    res = renews(touser,fromuser)
-            else:
-                text = dataevent(xmlData)
-                res = retext(touser,fromuser,text)
+            text = dataevent(xmlData)
+            res = retext(touser,fromuser,text)
             return res
 
     def getjson(recMsg):

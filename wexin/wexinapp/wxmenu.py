@@ -63,7 +63,7 @@ class WxMenuServer(object):
             {
                 "type":"view",
                 "name":"test",
-                "url":"http://www.51huiu.cn/lnr"
+                "url":"http://www.51huiu.cn/test"
             },
 
             {
@@ -76,21 +76,21 @@ class WxMenuServer(object):
                 },
                 {
                     "type":"click",
-                    "name":"translate",
-                    "key":"v1001_translate"
-                },
-                {
-                    "type":"click",
-                    "name":"weather",
-                    "key":"v1001_weather"
+                    "name":"news",
+                    "key":"v1001_news"
                 }
+#                {
+#                    "type":"click",
+#                    "name":"weather",
+#                    "key":"v1001_weather"
+#                }
                 ]
             },
 
             {
                 "type":"view",
                 "name":"about me",
-                "url":"http://www.51huiu.cn/lnr"
+                "url":"http://www.51huiu.cn"
             }
             ]
         }
@@ -102,3 +102,4 @@ if __name__=='__main__':
 
     wx_menu_server = WxMenuServer()
     wx_menu_server.create_menu()
+#    wx_menu_server.delete_menu()

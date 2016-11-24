@@ -15,11 +15,11 @@ import traceback
 import xml.etree.ElementTree as ET
 import time
 
-wxtoken='yourtoken'
-key = 'your tuling key'
-autotexturl = 'http://www.tuling123.com/openapi/api'
-appid = 'yourappid'
-appsecret = 'yourappsecret'
+wxtoken = 'wslnr'
+key = '9d6be4eba9a04bd7bfcc13a130111768'
+url = 'http://www.tuling123.com/openapi/api'
+appid = 'wx6b278f2d4943d8b7'
+appsecret = 'a614fe46d973860f79a955f060f5f6e9'
 
 @csrf_exempt
 def lnr(request):

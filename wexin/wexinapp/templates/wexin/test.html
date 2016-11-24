@@ -1,0 +1,34 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,inital-scale=1,maximum-scale=1,user-scalable=no;" />
+</head>
+
+<body>
+    <div class="panel">
+        <!-- Table --> 
+        <table class="tables">
+            <thead>
+                <tr>
+                  <!--  <th>#</th> -->
+                    <th>news</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for a in news %}
+                <tr>
+                <td>{{ a.title }}</td>
+                </tr>
+                <tr>
+                <td>{{ a.text }}</td>
+                </tr>
+                <tr></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
