@@ -1,7 +1,7 @@
 class WxConfig(object):
 
-    APPID = 'wxb957e3605e03b369'
-    AppSecret = 'a2445b89eaf6f07b8cc3699069e2a768'
+    APPID = ''
+    AppSecret = ''
 
     config_get_access_token_url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s' % (AppID, AppSecret)
 
