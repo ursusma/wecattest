@@ -20,8 +20,8 @@ updata_mass_url = 'https://api.weixin.qq.com/cgi-bin/message/mass/sendall?access
 
 file_url = "http://file.api.weixin.qq.com/cgi-bin/media/upload?access_token="
 
-appid = 'wxb957e3605e03b369'
-appsecret = 'a2445b89eaf6f07b8cc3699069e2a768'
+appid = 'you addid'
+appsecret = 'you appsecret'
 access_token_url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s' % (appid, appsecret)
 r_test = requests.get(access_token_url)
 res_test = json.loads(r_test.text)
